@@ -20,6 +20,8 @@ export default class Post extends DataObject {
     this._body = body;
   }
 
+    public static PATH = "posts";
+
   get userId(): number | undefined {
     return this._userId;
   }
@@ -51,6 +53,10 @@ export default class Post extends DataObject {
       title: this._title,
       body: this._body,
     };
+  }
+
+  override get path(): string {
+    return "posts";
   }
 
   public fromUnknowObject(obj: unknown): void {

@@ -23,6 +23,12 @@ export default class Comment extends DataObject {
     this._body = body;
   }
 
+  public static PATH = "comments";
+
+  override get path(): string {
+    return "comments";
+  }
+
   get postId(): number | undefined {
     return this._postId;
   }

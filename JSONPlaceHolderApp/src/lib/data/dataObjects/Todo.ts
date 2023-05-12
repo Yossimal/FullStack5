@@ -20,6 +20,8 @@ export default class Todo extends DataObject {
     this._completed = completed;
   }
 
+  public static PATH = "todos";
+
   get userId(): number | undefined {
     return this._userId;
   }
@@ -51,6 +53,10 @@ export default class Todo extends DataObject {
       title: this._title,
       completed: this._completed,
     };
+  }
+
+  override get path(): string {
+    return "todos";
   }
 
   public fromUnknowObject(obj: unknown): void {

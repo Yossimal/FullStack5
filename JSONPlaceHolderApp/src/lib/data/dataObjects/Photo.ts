@@ -23,6 +23,12 @@ export default class Photo extends DataObject {
     this._thumbnailUrl = thumbnailUrl;
   }
 
+  override get path(): string {
+    return "photos";
+  }
+
+  public static PATH = "photos";
+
   get albumId(): number | undefined {
     return this._albumId;
   }

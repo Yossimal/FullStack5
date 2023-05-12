@@ -1,3 +1,5 @@
+import { getOne } from "../loders/mainLoader/getLoader";
+
 export type DataObjectType = Partial<{
   id: string;
 }>;
@@ -5,8 +7,20 @@ export type DataObjectType = Partial<{
 export default class DataObject {
   protected _id?: string;
 
+
   constructor({ id }: DataObjectType) {
     this._id = id;
+  }
+
+  get path(): string {
+    throw new Error("Method not implemented.");
+  }
+
+  get fullPath(): string {
+    if (!this.id) {
+      throw new Error("The full path can't be generated without an id");
+    }
+    return `${this.path}/${this.id}`;
   }
 
   get id(): string | undefined {
@@ -30,6 +44,11 @@ export default class DataObject {
   public fromJSON(json: string): void {
     const obj = JSON.parse(json);
     this.fromUnknowObject(obj);
+  }
+
+  public async load(): Promise<void> {
+    const data = await getOne(this.fullPath);
+    this.fromUnknowObject(data);
   }
 
   public fromUnknowObject(obj: unknown): void {

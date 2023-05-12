@@ -17,6 +17,12 @@ export default class Album extends DataObject {
     this._title = title;
   }
 
+  public static PATH = "albums";
+
+  override get path(): string {
+    return Album.PATH;
+  }
+
   get userId(): number | undefined {
     return this._userId;
   }
