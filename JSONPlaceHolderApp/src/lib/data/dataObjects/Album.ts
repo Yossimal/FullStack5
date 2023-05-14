@@ -1,4 +1,6 @@
+import { getList } from "../loders/mainLoader/getLoader";
 import DataObject, { DataObjectType } from "./DataObject";
+import Photo from "./Photo";
 
 export type AlbumObjectType = Partial<
   DataObjectType & {
@@ -52,5 +54,9 @@ export default class Album extends DataObject {
     const objTyped = obj as AlbumObjectType;
     this._userId = objTyped.userId;
     this._title = objTyped.title;
+  }
+
+  get photos():Promise<Photo[]> {
+    return getList<Photo>(`${this.fullPath}/${Photo.PATH}`)
   }
 }

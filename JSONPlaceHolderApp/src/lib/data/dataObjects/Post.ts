@@ -1,3 +1,5 @@
+import { getList } from "../loders/mainLoader/getLoader";
+import Comment from "./Comment";
 import DataObject, { DataObjectType } from "./DataObject";
 
 export type PostType = Partial<
@@ -66,4 +68,9 @@ export default class Post extends DataObject {
     this._title = objTyped.title;
     this._body = objTyped.body;
   }
+
+  get comments(): Promise<Comment[]> {
+    return getList<Comment>(`${this.fullPath}/${Comment.PATH}`);
+  }
+
 }
