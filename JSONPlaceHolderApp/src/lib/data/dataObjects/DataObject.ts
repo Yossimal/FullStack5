@@ -1,12 +1,14 @@
+import { Serializiation } from "../../../types/dataObjects.types";
+import Indexable from "../loders/interfaces/Indexable";
+import { find } from "../loders/mainLoader/getLoader";
 import { getOne } from "../loders/mainLoader/getLoader";
 
 export type DataObjectType = Partial<{
   id: string;
 }>;
 
-export default class DataObject {
+export default class DataObject implements Indexable {
   protected _id?: string;
-
 
   constructor({ id }: DataObjectType) {
     this._id = id;
@@ -55,4 +57,16 @@ export default class DataObject {
     const objTyped = obj as DataObjectType;
     this._id = objTyped.id;
   }
+
+  public async first(query: any): Promise<void> {
+    const results = await find(this.path, query);
+    if (results.length === 0) {
+      return;
+    }
+    this.fromUnknowObject(results[0]);
+  }
+
+  
 }
+
+

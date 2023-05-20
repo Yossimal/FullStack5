@@ -1,10 +1,11 @@
 import { Form, InputGroup } from "react-bootstrap";
+import { stateSetter } from "../../../types/react.types";
 
 type InputProps = Partial<{
   inputType: string;
   placeholder: string;
   value: string;
-  setter: (value: string) => void;
+  setter: stateSetter<string>;
 }>;
 
 export default function Input({
@@ -13,6 +14,14 @@ export default function Input({
   value,
   setter,
 }: InputProps) {
+
+  const setText = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if(!setter){
+      return;
+    }
+    setter(e.target.value);
+  }
+
   return (
     <InputGroup>
       <Form.Control
@@ -20,9 +29,7 @@ export default function Input({
         as={inputType === "textarea" ? "textarea" : "input"}
         placeholder={placeholder ?? ""}
         value={value ?? ""}
-        onChange={(e) => {
-          setter ? e.target.value : null;
-        }}
+        onChange={setText}
       />
     </InputGroup>
   );

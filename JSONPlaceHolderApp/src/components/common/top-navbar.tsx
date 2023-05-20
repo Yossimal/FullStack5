@@ -1,12 +1,12 @@
 import { Navbar, Nav, Container } from "react-bootstrap";
-import { useContext } from "react";
-import { AuthContext } from "../../context/auth-context/auth-context";
+import { useSession } from "../../hooks/use-session-storage/use-session";
 
 export default function TopNavbar() {
-  const authContext = useContext(AuthContext);
+
+  const [user,setUser] = useSession("user",null);
 
   const logOut = () => {
-    authContext.logOut();
+    setUser(null);
   };
 
   const notLoggedInLinks = (
@@ -24,7 +24,7 @@ export default function TopNavbar() {
         <Nav.Link href="/posts">My Posts</Nav.Link>
         <Nav.Link href="/albums">My Albums</Nav.Link>
         <Nav.Link href="/todos">My Todos</Nav.Link>
-        <Nav.Link href="/logout" onClick={logOut}>
+        <Nav.Link href="#" onClick={logOut}>
           Logout
         </Nav.Link>
       </Nav>
@@ -34,7 +34,7 @@ export default function TopNavbar() {
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
       <Container>
-        {authContext.user ? loggedInLinks : notLoggedInLinks}
+        {user ? loggedInLinks : notLoggedInLinks}
       </Container>
     </Navbar>
   );
