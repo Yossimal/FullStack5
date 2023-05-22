@@ -1,4 +1,3 @@
-import { Serializiation } from "../../../types/dataObjects.types";
 import Indexable from "../loders/interfaces/Indexable";
 import { find } from "../loders/mainLoader/getLoader";
 import { getOne } from "../loders/mainLoader/getLoader";

@@ -1,4 +1,4 @@
-import { find, getList } from "../loders/mainLoader/getLoader";
+import { find } from "../loders/mainLoader/getLoader";
 import DataObject, { DataObjectType } from "./DataObject";
 import Photo from "./Photo";
 

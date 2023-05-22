@@ -5,13 +5,16 @@ import { useState } from "react";
 
 type PostItemProps = {
   post: Post;
+  selectedPost: string;
+  setSelectedPost: any;
 };
 
-export default function PostsItem({ post }: PostItemProps) {
+export default function PostsItem({ post, selectedPost, setSelectedPost}: PostItemProps) {
   if (!post) return <></>;
 
   const [comments, setComments] = useState<Comment[]>([]);
   const [showComments, setShowComments] = useState<Boolean>(false);
+  const selected = selectedPost === post.id;
 
   const handleCommentClick = () => {
     console.log(typeof post);
@@ -23,11 +26,11 @@ export default function PostsItem({ post }: PostItemProps) {
 
   return (
     <ListGroupItem>
-      <div>
+      <div onClick={() => setSelectedPost(post.id)}>
         <Card>
           <Card.Body>
-            <Card.Title>{post.title}</Card.Title>
-            <Card.Text>{post.body}</Card.Text>
+            <Card.Title style={{ fontWeight: selected ? "bold" : "normal" }}>{post.title}</Card.Title>
+            <Card.Text style={{ fontWeight: selected ? "bold" : "normal" }}>{post.body}</Card.Text>
             <Button onClick={handleCommentClick}>
               {showComments ? "Hide Comments" : "Show Comments"}
             </Button>
