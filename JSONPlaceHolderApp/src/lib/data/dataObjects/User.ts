@@ -2,6 +2,7 @@ import { getList } from "../loders/mainLoader/getLoader";
 import Album from "./Album";
 import DataObject, { DataObjectType } from "./DataObject";
 import Todo from "./Todo";
+import Post from "./Post";
 
 type Address = Partial<{
   street: string;
@@ -144,7 +145,7 @@ export default class User extends DataObject {
     return getList<Todo>(`${this.fullPath}/${Todo.PATH}`);
   }
 
-  public get posts(): Promise<Todo[]> {
-    return getList<Todo>(`${this.fullPath}/${Todo.PATH}`);
+  public get posts(): Promise<Post[]> {
+    return getList<Post>(`${this.fullPath}/${Post.PATH}`);
   }
 }
