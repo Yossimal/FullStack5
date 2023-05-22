@@ -66,13 +66,7 @@ export default class DataObject implements Indexable {
     this.fromUnknowObject(results[0]);
   }
 
-  public async find(query: any): Promise<void> {
-    const results = await find(this.path, query);
-    if (results.length === 0) {
-      return;
-    }
-    this.fromUnknowObject(results);
+  public async save(): Promise<DataObject> {
+    throw new Error("Method not implemented.");
   }
 }
-
-
