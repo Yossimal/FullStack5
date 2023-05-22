@@ -1,7 +1,6 @@
 import Indexable from "../interfaces/Indexable";
 import { registerGetters } from "../mainLoader/getLoader";
-
-const JSON_PLACEHOLDER_URL = "https://jsonplaceholder.typicode.com";
+import { JSON_PLACEHOLDER_URL } from "./env";
 
 async function getList<T extends Indexable>(path: string): Promise<T[]> {
   return fetch(`${JSON_PLACEHOLDER_URL}/${path}`)
@@ -30,6 +29,6 @@ export default function initJPHGetLoader() {
     getList,
     getOne,
     find,
-    priority: 0,
+    priority: 1,
   });
 }

@@ -19,7 +19,7 @@ export async function getList<T extends Indexable>(path: string): Promise<T[]> {
   let results: { [id: string]: T } = {};
   for (const func of functions) {
     const res = await func.getList<T>(path);
-    if (res.length === 0) {
+    if (!res || res.length === 0) {
       continue;
     }
     results = res.reduce((acc, cur, index) => {
@@ -51,7 +51,7 @@ export async function find<T extends Indexable>(
   let results: { [id: string]: T } = {};
   for (const func of functions) {
     const res = await func.find(path, query);
-    if (res.length === 0) {
+    if (!res || res.length === 0) {
       continue;
     }
     results = res.reduce((acc, cur, index) => {
