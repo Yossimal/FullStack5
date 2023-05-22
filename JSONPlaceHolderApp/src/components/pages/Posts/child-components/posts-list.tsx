@@ -14,6 +14,7 @@ export default function PostsList() {
     UserSerializer
   );
   const [posts, setPosts] = useState<Post[]>([]);
+  const [selectedPost, setSelectedPost] = useState<string>();
 
 
   if (!user?.id) return <></>;
@@ -25,7 +26,7 @@ export default function PostsList() {
   }, [user]);
 
   const postsDOM = posts.map((post: Post) => {
-    return <PostsItem post={post} key={post.id} />;
+    return <PostsItem post={post} selectedPost={selectedPost} setSelectedPost={setSelectedPost} key={post.id} />;
   });
 
   return <ListGroup>{postsDOM}</ListGroup>;

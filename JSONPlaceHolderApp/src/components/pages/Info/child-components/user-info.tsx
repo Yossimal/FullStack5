@@ -1,4 +1,3 @@
-import React from 'react';
 import { Card } from 'react-bootstrap';
 import User from '../../../../lib/data/dataObjects/User';
 
