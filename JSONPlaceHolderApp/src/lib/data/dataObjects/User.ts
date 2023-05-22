@@ -1,8 +1,8 @@
 import { getList } from "../loders/mainLoader/getLoader";
 import Album from "./Album";
 import DataObject, { DataObjectType } from "./DataObject";
-import Post from "./Post";
 import Todo from "./Todo";
+import Post from "./Post";
 
 type Address = Partial<{
   street: string;

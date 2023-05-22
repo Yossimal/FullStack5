@@ -21,9 +21,10 @@ export default function TopNavbar() {
       <Navbar.Brand href="/home">JPH visual</Navbar.Brand>
       <Nav className="me-auto">
         <Nav.Link href="/home">Home</Nav.Link>
+        <Nav.Link href="/info">My Info</Nav.Link>
+        <Nav.Link href="/todos">My Todos</Nav.Link>
         <Nav.Link href="/posts">My Posts</Nav.Link>
         <Nav.Link href="/albums">My Albums</Nav.Link>
-        <Nav.Link href="/todos">My Todos</Nav.Link>
         <Nav.Link href="#" onClick={logOut}>
           Logout
         </Nav.Link>
