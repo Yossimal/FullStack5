@@ -1,6 +1,7 @@
 import { getList } from "../loders/mainLoader/getLoader";
 import Album from "./Album";
 import DataObject, { DataObjectType } from "./DataObject";
+import Post from "./Post";
 import Todo from "./Todo";
 
 type Address = Partial<{
@@ -137,14 +138,21 @@ export default class User extends DataObject {
   }
 
   public get albums(): Promise<Album[]> {
-    return getList<Album>(`${this.fullPath}/${Album.PATH}`);
+    return getList(`${this.fullPath}/${Album.PATH}`).then((albums: any[]) =>
+      albums.map((album) => new Album(album))
+    );
   }
 
   public get todos(): Promise<Todo[]> {
-    return getList<Todo>(`${this.fullPath}/${Todo.PATH}`);
+    return getList(`${this.fullPath}/${Todo.PATH}`).then((todos: any[]) =>
+      todos.map((todo) => new Todo(todo))
+    );
   }
 
-  public get posts(): Promise<Todo[]> {
-    return getList<Todo>(`${this.fullPath}/${Todo.PATH}`);
+  public get posts(): Promise<Post[]> {
+    return getList(`${this.fullPath}/${Post.PATH}`).then((posts: any[]) =>
+      posts.map((post) => new Post(post))
+    );
   }
+
 }

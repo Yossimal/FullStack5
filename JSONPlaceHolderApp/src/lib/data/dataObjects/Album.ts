@@ -1,4 +1,4 @@
-import { getList } from "../loders/mainLoader/getLoader";
+import { find, getList } from "../loders/mainLoader/getLoader";
 import DataObject, { DataObjectType } from "./DataObject";
 import Photo from "./Photo";
 
@@ -56,7 +56,7 @@ export default class Album extends DataObject {
     this._title = objTyped.title;
   }
 
-  get photos():Promise<Photo[]> {
-    return getList<Photo>(`${this.fullPath}/${Photo.PATH}`)
+  public async photos(query:any):Promise<Photo[]> {
+    return find(`${this.fullPath}/${Photo.PATH}`,query)
   }
 }

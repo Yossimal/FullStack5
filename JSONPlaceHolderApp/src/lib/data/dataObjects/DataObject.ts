@@ -66,7 +66,7 @@ export default class DataObject implements Indexable {
     this.fromUnknowObject(results[0]);
   }
 
-  
+  public async save(): Promise<DataObject> {
+    throw new Error("Method not implemented.");
+  }
 }
-
-
