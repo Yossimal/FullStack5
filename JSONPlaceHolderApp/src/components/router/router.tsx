@@ -6,6 +6,7 @@ import makePrivate from "./private-route";
 import Todos from "../pages/Todos/todos";
 import Posts from "../pages/Posts/posts";
 import Albums from "../pages/Albums/albums";
+import Info from "../pages/Info/info";
 
 export default function Router() {
   return (
@@ -20,6 +21,7 @@ export default function Router() {
       </Route>
       <Route path="todos" element={makePrivate(<Todos/>)} />
       <Route path="posts" element={makePrivate(<Posts/>)} />
+      <Route path="info" element={makePrivate(<Info />)} />
     </Routes>
   );
 }
