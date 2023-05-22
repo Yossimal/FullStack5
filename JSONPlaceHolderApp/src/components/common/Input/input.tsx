@@ -1,11 +1,11 @@
 import { Form, InputGroup } from "react-bootstrap";
-import { stateSetter } from "../../../types/react.types";
+import { StateSetter } from "../../../types/react.types";
 
 type InputProps = Partial<{
   inputType: string;
   placeholder: string;
   value: string;
-  setter: stateSetter<string>;
+  setter: StateSetter<string>;
 }>;
 
 export default function Input({

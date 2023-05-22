@@ -4,7 +4,7 @@ import DataObject, { DataObjectType } from "./DataObject";
 import Todo from "./Todo";
 import Post from "./Post";
 
-type Address = Partial<{
+export type Address = Partial<{
   street: string;
   suite: string;
   city: string;
@@ -12,12 +12,12 @@ type Address = Partial<{
   geo: Geo;
 }>;
 
-type Geo = Partial<{
+export type Geo = Partial<{
   lat: string;
   lng: string;
 }>;
 
-type Company = Partial<{
+export type Company = Partial<{
   name: string;
   catchPhrase: string;
   bs: string;
