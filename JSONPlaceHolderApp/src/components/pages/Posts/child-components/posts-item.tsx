@@ -2,11 +2,12 @@ import { ListGroup, ListGroupItem, Card, Button } from "react-bootstrap";
 import Post from "../../../../lib/data/dataObjects/Post";
 import Comment from "../../../../lib/data/dataObjects/Comment";
 import { useState } from "react";
+import { Nullable, StateSetter } from "../../../../types/react.types";
 
 type PostItemProps = {
   post: Post;
-  selectedPost: string;
-  setSelectedPost: any;
+  selectedPost: Nullable<string>;
+  setSelectedPost: StateSetter<Nullable<string>>;
 };
 
 export default function PostsItem({ post, selectedPost, setSelectedPost}: PostItemProps) {
@@ -17,7 +18,6 @@ export default function PostsItem({ post, selectedPost, setSelectedPost}: PostIt
   const selected = selectedPost === post.id;
 
   const handleCommentClick = () => {
-    console.log(typeof post);
     post.comments.then((comments) => {
       setComments(comments);
       setShowComments(!showComments);
