@@ -1,28 +1,21 @@
-import { ListGroup, ListGroupItem, Card, Button } from "react-bootstrap";
+import { ListGroupItem, Card, Button } from "react-bootstrap";
 import Post from "../../../../lib/data/dataObjects/Post";
-import Comment from "../../../../lib/data/dataObjects/Comment";
 import { useState } from "react";
+import { Nullable, StateSetter } from "../../../../types/react.types";
+import CommentsList from "./comments-list";
 
 type PostItemProps = {
   post: Post;
-  selectedPost: string;
-  setSelectedPost: any;
+  selectedPost: Nullable<string>;
+  setSelectedPost: StateSetter<Nullable<string>>;
 };
 
 export default function PostsItem({ post, selectedPost, setSelectedPost}: PostItemProps) {
   if (!post) return <></>;
 
-  const [comments, setComments] = useState<Comment[]>([]);
   const [showComments, setShowComments] = useState<Boolean>(false);
   const selected = selectedPost === post.id;
 
-  const handleCommentClick = () => {
-    console.log(typeof post);
-    post.comments.then((comments) => {
-      setComments(comments);
-      setShowComments(!showComments);
-    });
-  };
 
   return (
     <ListGroupItem>
@@ -31,27 +24,13 @@ export default function PostsItem({ post, selectedPost, setSelectedPost}: PostIt
           <Card.Body>
             <Card.Title style={{ fontWeight: selected ? "bold" : "normal" }}>{post.title}</Card.Title>
             <Card.Text style={{ fontWeight: selected ? "bold" : "normal" }}>{post.body}</Card.Text>
-            <Button onClick={handleCommentClick}>
+            <Button onClick={() => setShowComments(!showComments)}>
               {showComments ? "Hide Comments" : "Show Comments"}
             </Button>
           </Card.Body>
         </Card>
 
-        {showComments && (
-          <Card className="mt-3">
-            <Card.Body>
-              <Card.Title>Comments</Card.Title>
-              <ListGroup>
-                {comments.map((comment) => (
-                  <ListGroup.Item key={comment.id}>
-                    <h5>{comment.name}</h5>
-                    <p>{comment.body}</p>
-                  </ListGroup.Item>
-                ))}
-              </ListGroup>
-            </Card.Body>
-          </Card>
-        )}
+        {showComments && <CommentsList post={post} showComments={showComments}/>}
       </div>
     </ListGroupItem>
   );
