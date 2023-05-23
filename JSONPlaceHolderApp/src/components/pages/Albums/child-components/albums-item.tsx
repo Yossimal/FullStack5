@@ -23,7 +23,7 @@ export default function AlbumItem({ album }: AlbumItemProps) {
 
   const fetchPhotos = async () => {
     try {
-      album.photos({ _page: page }).then((newPhotos) => {
+      album.photos(page).then((newPhotos) => {
         if (newPhotos.length === 0) {
           setHasMore(false);
         }

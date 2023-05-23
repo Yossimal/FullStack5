@@ -31,6 +31,7 @@ export type UserObjectType = Partial<
     phone: string;
     website: string;
     company: Company;
+    email: string;
   }
 >;
 
@@ -41,6 +42,7 @@ export default class User extends DataObject {
   protected _phone?: string;
   protected _website?: string;
   protected _company?: Company;
+  protected _email?: string;
 
   constructor({
     id,
@@ -50,6 +52,7 @@ export default class User extends DataObject {
     phone,
     website,
     company,
+    email,
   }: UserObjectType) {
     super({ id });
     this._name = name;
@@ -58,6 +61,7 @@ export default class User extends DataObject {
     this._phone = phone;
     this._website = website;
     this._company = company;
+    this._email = email;
   }
 
   public static PATH = "users";
@@ -114,6 +118,14 @@ export default class User extends DataObject {
     this._company = company;
   }
 
+  get email(): string | undefined {
+    return this._email;
+  }
+
+  set email(email: string | undefined) {
+    this._email = email;
+  }
+
   public override toUnknowObject(): unknown {
     return {
       ...(super.toUnknowObject() as Object),
@@ -154,5 +166,4 @@ export default class User extends DataObject {
       posts.map((post) => new Post(post))
     );
   }
-
 }
