@@ -1,8 +1,6 @@
-import { ListGroupItem, Card, Button, Row, Col } from "react-bootstrap";
-import InfiniteScroll from "react-infinite-scroll-component";
+import { ListGroupItem, Card, Button } from "react-bootstrap";
 import Album from "../../../../lib/data/dataObjects/Album";
 import { useState } from "react";
-import Photo from "../../../../lib/data/dataObjects/Photo";
 import PhotosList from "./photos-list";
 
 type AlbumItemProps = {

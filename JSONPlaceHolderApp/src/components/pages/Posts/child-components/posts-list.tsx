@@ -14,7 +14,7 @@ export default function PostsList() {
     UserSerializer
   );
   const [posts, setPosts] = useState<Post[]>([]);
-  const [selectedPost, setSelectedPost] = useState<string>();
+  const [selectedPost, setSelectedPost] = useState<Nullable<string>>();
 
 
   if (!user?.id) return <></>;
