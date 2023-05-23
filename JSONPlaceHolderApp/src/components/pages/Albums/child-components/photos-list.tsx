@@ -4,12 +4,12 @@ import Album from "../../../../lib/data/dataObjects/Album";
 import { useEffect, useState } from "react";
 import Photo from "../../../../lib/data/dataObjects/Photo";
 
-type PhotosItemProps = {
+type PhotosListProps = {
     album: Album;
     showPhotos: Boolean;
 };
 
-export default function PhotosList({ album, showPhotos }: PhotosItemProps) {
+export default function PhotosList({ album, showPhotos }: PhotosListProps) {
     if (!album) return <></>;
 
     const [photos, setPhotos] = useState<Photo[]>([]);
