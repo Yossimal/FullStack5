@@ -12,18 +12,13 @@ export default function AlbumItem({ album }: AlbumItemProps) {
 
   const [showPhotos, setShowPhotos] = useState<Boolean>(false);
 
-  const handleShowPhotos = () => {
-    setShowPhotos((show) => !show);
-  };
-
-
   return (
     <ListGroupItem>
       <div>
         <Card>
           <Card.Body>
             <Card.Title>{album.title}</Card.Title>
-            <Button onClick={handleShowPhotos}>
+            <Button onClick={ () => {setShowPhotos(!showPhotos)}}>
               {showPhotos ? "Hide Photos" : "Show Photos"}
             </Button>
           </Card.Body>

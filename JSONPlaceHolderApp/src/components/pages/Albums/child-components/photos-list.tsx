@@ -18,7 +18,7 @@ export default function PhotosList({ album, showPhotos }: PhotosListProps) {
 
     const fetchPhotos = async () => {
         try {
-            album.photos(page).then((newPhotos) => {
+            album.photos(page, 6).then((newPhotos) => {
                 if (newPhotos.length === 0) {
                     setHasMore(false);
                 }
@@ -32,8 +32,11 @@ export default function PhotosList({ album, showPhotos }: PhotosListProps) {
         }
     };
 
+    // TODO - fix useEffect being called twice
     useEffect(() => {
-        showPhotos && fetchPhotos();
+        if (showPhotos) {
+          fetchPhotos();
+        }
       }, [showPhotos]);
 
     return (
