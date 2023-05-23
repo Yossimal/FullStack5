@@ -1,5 +1,8 @@
 import { Card } from 'react-bootstrap';
 import User from '../../../../lib/data/dataObjects/User';
+import { useEffect, useState } from 'react';
+import EdibaleLabel from '../../../edibaleLabel/edibale-label';
+import BlockButton from '../../../common/BlockButton/block-button';
 
 type UserItemProps = {
     user: User;
@@ -11,11 +14,20 @@ const UserInfo = ( {user}: UserItemProps ) => {
   const { lat, lng } = geo || {};
   const { name: companyName, catchPhrase, bs } = company || {};
 
-  return (
+  const [isEditable, setIsEditable] = useState(false);
+  const [usernameValue, setUsernameValue] = useState<string>(username??"");
+
+  useEffect(() => {
+    setUsernameValue(username??"");
+  }, [username]);
+  
+  
+
+  return (<>
     <Card className="user-card">
       <Card.Body>
         <Card.Title>{name}</Card.Title>
-        <Card.Text>Username: {username}</Card.Text>
+        <EdibaleLabel isEditable={isEditable} label='User Name' setter={setUsernameValue} value={usernameValue} WrapperComponent={Card.Text} />
         <Card.Text>Address: {street}, {suite}, {city}, {zipcode}</Card.Text>
         <Card.Text>Latitude: {lat}</Card.Text>
         <Card.Text>Longitude: {lng}</Card.Text>
@@ -26,6 +38,8 @@ const UserInfo = ( {user}: UserItemProps ) => {
         <Card.Text>BS: {bs}</Card.Text>
       </Card.Body>
     </Card>
+    <BlockButton onClick={() => setIsEditable(!isEditable)}>{isEditable ? "Save" : "Edit"}</BlockButton>
+    </>
   );
 };
 
