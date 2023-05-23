@@ -24,7 +24,7 @@ export default function AlbumItem({ album }: AlbumItemProps) {
           </Card.Body>
         </Card>
 
-        {showPhotos && <PhotosList album={album} showPhotos={showPhotos}/> }
+        {showPhotos && <PhotosList album={album}/> }
       </div>
     </ListGroupItem>
   );

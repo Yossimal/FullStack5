@@ -5,60 +5,61 @@ import { useEffect, useState } from "react";
 import Photo from "../../../../lib/data/dataObjects/Photo";
 
 type PhotosListProps = {
-    album: Album;
-    showPhotos: Boolean;
+  album: Album;
 };
 
-export default function PhotosList({ album, showPhotos }: PhotosListProps) {
-    if (!album) return <></>;
+export default function PhotosList({ album }: PhotosListProps) {
+  if (!album) return <></>;
 
-    const [photos, setPhotos] = useState<Photo[]>([]);
-    const [page, setPage] = useState(1);
-    const [hasMore, setHasMore] = useState(true);
+  const [photos, setPhotos] = useState<Photo[]>([]);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
 
-    const fetchPhotos = async () => {
-        try {
-            album.photos(page, 6).then((newPhotos) => {
-                if (newPhotos.length === 0) {
-                    setHasMore(false);
-                }
-                setPhotos((prevPhotos) => [...prevPhotos, ...newPhotos]);
-            });
-
-            // Update page number and check if there is more data available
-            setPage((prevPage) => prevPage + 1);
-        } catch (error) {
-            console.error("Error fetching albums:", error);
+  const fetchPhotos = async () => {
+    console.log("fetching photos");
+    try {
+      album.photos(page, 6).then((newPhotos) => {
+        if (newPhotos.length === 0) {
+          setHasMore(false);
         }
-    };
+        console.log("fetch complete");
+        setPhotos((prevPhotos) => {
+          const combined = [...prevPhotos, ...newPhotos];
+          const unique = combined.filter((photo, index, self) => {
+            return index === self.findIndex((p) => p.id === photo.id);
+          });
+          return unique;
+        });
+      });
 
-    // TODO - fix useEffect being called twice
-    useEffect(() => {
-        if (showPhotos) {
-          fetchPhotos();
-        }
-      }, [showPhotos]);
+      // Update page number and check if there is more data available
+      setPage((prevPage) => prevPage + 1);
+    } catch (error) {
+      console.error("Error fetching albums:", error);
+    }
+  };
 
-    return (
-        <InfiniteScroll
-            dataLength={photos.length}
-            next={fetchPhotos}
-            hasMore={hasMore}
-            loader={<h4>Loading...</h4>}
-            endMessage={<p>No more photos to load.</p>}
-        >
-            <Row>
-                {photos.map((photo) => (
-                    <Col key={photo.id} md={4}>
-                        <img
-                            src={photo.url}
-                            alt={photo.title}
-                            className="img-fluid"
-                        />
-                        <h4>{photo.title}</h4>
-                    </Col>
-                ))}
-            </Row>
-        </InfiniteScroll>
-    );
+  // TODO - fix useEffect being called twice
+  useEffect(() => {
+    fetchPhotos();
+  }, []);
+
+  return (
+    <InfiniteScroll
+      dataLength={photos.length}
+      next={fetchPhotos}
+      hasMore={hasMore}
+      loader={<h4>Loading...</h4>}
+      endMessage={<p>No more photos to load.</p>}
+    >
+      <Row>
+        {photos.map((photo) => (
+          <Col key={photo.id} md={4}>
+            <img src={photo.url} alt={photo.title} className="img-fluid" />
+            <h4>{photo.title}</h4>
+          </Col>
+        ))}
+      </Row>
+    </InfiniteScroll>
+  );
 }

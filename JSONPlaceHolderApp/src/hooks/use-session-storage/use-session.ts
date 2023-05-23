@@ -19,6 +19,7 @@ export const useSession = <T>(
     const handleStorageChange = (event: StorageEvent) => {
       if (event.storageArea === sessionStorage && event.key === key) {
         console.log("useSessionStorage: storage change", event.newValue);
+
         setValue(JSON.parse(event.newValue!));
       }
     };
@@ -32,7 +33,6 @@ export const useSession = <T>(
 
   const updateSession = (newValue: T) => {
     setValue(newValue);
-    // console.log('useSessionStorage: update', newValue, JSON.stringify(newValue));
     const newValueAsUnknow = serialization ? serialization[0](newValue) : newValue;
     const newData = JSON.stringify(newValueAsUnknow);
     console.log(newData,newValue)
@@ -41,7 +41,7 @@ export const useSession = <T>(
     //dispatch event to notify other components
     const storageEvent = new StorageEvent("storage", {
       key,
-      newValue: JSON.stringify(newValue),
+      newValue: newData,
       storageArea: sessionStorage,
     });
     window.dispatchEvent(storageEvent);

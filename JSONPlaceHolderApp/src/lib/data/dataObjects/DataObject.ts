@@ -58,12 +58,13 @@ export default class DataObject implements Indexable {
     this._id = objTyped.id;
   }
 
-  public async first(query: any): Promise<void> {
+  public async first(query: any): Promise<DataObject|undefined> {
     const results = await find(this.path, query);
     if (results.length === 0) {
-      return;
+      return undefined;
     }
     this.fromUnknowObject(results[0]);
+    return this;
   }
 
   public async save(): Promise<void> {
