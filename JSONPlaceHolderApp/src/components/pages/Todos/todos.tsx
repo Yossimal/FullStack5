@@ -1,4 +1,4 @@
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Button, InputGroup, Form } from "react-bootstrap";
 import TodosList from "./child-components/todos-list";
 import { useState } from "react";
 import { SortBy as SortMethod, FilterBy as FilterMethod } from "./types";
@@ -6,6 +6,7 @@ import { SortBy as SortMethod, FilterBy as FilterMethod } from "./types";
 export default function Todos() {
   const [sortBy, setSortBy] = useState<string>(SortMethod.ID);
   const [filterBy, setFilterBy] = useState<string>(FilterMethod.NONE);
+  //const [newTodoTitle, setNewTodoTitle] = useState<string>();
 
   const handleSortOptionChange = (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -30,7 +31,11 @@ export default function Todos() {
         <Col>
           <div className="d-flex flex-row gap-2">
             <label>Sort by</label>
-            <select title="Sort By" value={sortBy} onChange={handleSortOptionChange}>
+            <select
+              title="Sort By"
+              value={sortBy}
+              onChange={handleSortOptionChange}
+            >
               {Object.keys(SortMethod).map((key) => (
                 <option
                   key={key}
@@ -41,7 +46,11 @@ export default function Todos() {
               ))}
             </select>
             <label>Filter</label>
-            <select title="Filter By" value={filterBy} onChange={handleFilterOptionChange}>
+            <select
+              title="Filter By"
+              value={filterBy}
+              onChange={handleFilterOptionChange}
+            >
               {Object.keys(FilterMethod).map((key) => (
                 <option
                   key={key}

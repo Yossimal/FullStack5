@@ -65,8 +65,9 @@ export default function PostsList({ sortBy }: PostlistProps) {
     handleSort();
   }, [sortBy]);
 
+
   const postsDOM = posts.map((post: Post) => {
-    return <PostsItem post={post} selectedPost={selectedPost} setSelectedPost={setSelectedPost} key={post.id} />;
+    return <PostsItem post={post} user={user} selectedPost={selectedPost} setSelectedPost={setSelectedPost} key={post.id} />;
   });
 
   return <ListGroup>{postsDOM}</ListGroup>;
