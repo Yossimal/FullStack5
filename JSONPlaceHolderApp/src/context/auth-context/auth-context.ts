@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext } from "react";
 import User from "../../lib/data/dataObjects/User";
 
 export class AuthContextData {

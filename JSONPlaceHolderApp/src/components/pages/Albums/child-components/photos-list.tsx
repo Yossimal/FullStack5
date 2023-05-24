@@ -1,7 +1,7 @@
 import { Row, Col, Image } from "react-bootstrap";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Album from "../../../../lib/data/dataObjects/Album";
-import { useEffect, useMemo, useState, useCallback } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Photo from "../../../../lib/data/dataObjects/Photo";
 import ImageModal from "./image-modal";
 
@@ -37,14 +37,17 @@ export default function PhotosList({ album }: PhotosListProps) {
           const unique = combined.filter((photo, index, self) => {
             return index === self.findIndex((p) => p.id === photo.id);
           });
+          if (unique.length > prevPhotos.length) {
+            // Update page number and check if there is more data available
+            setPage((prevPage) => prevPage + 1);
+          }
           return unique;
         });
       });
 
-      // Update page number and check if there is more data available
-      setPage((prevPage) => prevPage + 1);
+      
     } catch (error) {
-      console.error("Error fetching albums:", error);
+      console.error("Error fetching Photos: ", error);
     }
   };
 
