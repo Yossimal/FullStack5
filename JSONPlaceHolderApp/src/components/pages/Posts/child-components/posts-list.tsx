@@ -30,6 +30,7 @@ export default function PostsList({ sortBy }: PostlistProps) {
   const loadPosts = useMemo((): Promise<Post[]> => {
     return user.posts;
   }, [user.id]);
+  
   const handleSort = () => {
     let sortedPosts: Post[];
 
@@ -96,7 +97,7 @@ export default function PostsList({ sortBy }: PostlistProps) {
 
   return (
     <ListGroup>
-      <ListGroupItem>
+      <ListGroupItem key="-23434989">
         <InputGroup>
           <Button onClick={addPost}>Add Post</Button>
           <Form.Control

@@ -18,7 +18,7 @@ const UserInfo = ({ user, setUser }: UserItemProps) => {
   const [isEditable, setIsEditable] = useState(false);
   const [nameValue, setNameValue] = useState<string>(name ?? "");
   const [usernameValue, setUsernameValue] = useState<string>(username ?? "");
-  const [emailValue, setEmailValue] = useState<string>(username ?? "");
+  const [emailValue, setEmailValue] = useState<string>(email ?? "");
   const [streetValue, setStreetValueValue] = useState<string>(street ?? "");
   const [suiteValue, setSuiteValue] = useState<string>(suite ?? "");
   const [cityValue, setCityValue] = useState<string>(city ?? "");

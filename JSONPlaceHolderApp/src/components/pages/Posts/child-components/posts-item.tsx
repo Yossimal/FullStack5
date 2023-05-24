@@ -1,9 +1,8 @@
-import { ListGroupItem, Card, Button, InputGroup, Form } from "react-bootstrap";
+import { ListGroupItem, Card, Button } from "react-bootstrap";
 import Post from "../../../../lib/data/dataObjects/Post";
 import { useState } from "react";
 import { Nullable, StateSetter } from "../../../../types/react.types";
 import CommentsList from "./comments-list";
-import Comment from "../../../../lib/data/dataObjects/Comment";
 import User from "../../../../lib/data/dataObjects/User";
 
 
@@ -38,11 +37,6 @@ export default function PostsItem({ post, user, selectedPost, setSelectedPost}: 
             <Button onClick={() => setShowComments(!showComments)}>
               {showComments ? "Hide Comments" : "Show Comments"}
             </Button>
-            
-            {/* <InputGroup >
-            <Button onClick={addComment}>Add Comment</Button>
-            <Form.Control value={newCommentBody} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewCommentBody(e.target.value)} />
-            </InputGroup> */}
           </Card.Body>
         </Card>
 
