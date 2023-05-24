@@ -46,6 +46,7 @@ export default function MultiInputGroup({
       <InputGroup.Text>{label}</InputGroup.Text>
       {items.map((item) => (
         <InputItem
+          key={item.propName}
           setter={setter}
           placeholder={item.placeholder}
           propName={item.propName}
