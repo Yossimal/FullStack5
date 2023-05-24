@@ -30,7 +30,7 @@ export default function Todos() {
         <Col>
           <div className="d-flex flex-row gap-2">
             <label>Sort by</label>
-            <select value={sortBy} onChange={handleSortOptionChange}>
+            <select title="Sort By" value={sortBy} onChange={handleSortOptionChange}>
               <label>Sort By</label>
               {Object.keys(SortMethod).map((key) => (
                 <option
@@ -42,7 +42,7 @@ export default function Todos() {
               ))}
             </select>
             <label>Filter</label>
-            <select value={filterBy} onChange={handleFilterOptionChange}>
+            <select title="Filter By" value={filterBy} onChange={handleFilterOptionChange}>
               {Object.keys(FilterMethod).map((key) => (
                 <option
                   key={key}
