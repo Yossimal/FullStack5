@@ -8,6 +8,7 @@ import AddressEditor from "./address-editor";
 import CompanyEditor from "./company-editor";
 import { useSession } from "../../../hooks/use-session-storage/use-session";
 import { UserSerializer } from "../../../lib/data/dataObjects/serialization";
+import { useNavigate } from "react-router-dom";
 
 export default function SignUp() {
   const [email, setEmail] = useState("");
@@ -20,6 +21,8 @@ export default function SignUp() {
   const [website, setWebsite] = useState("");
   const [company, setCompany]: State<Company> = useState({});
   const [alert, setAlert] = useState("");
+
+  const navigate = useNavigate();
 
   const [_, setAuth] = useSession("user", null, UserSerializer);
 
@@ -160,10 +163,11 @@ export default function SignUp() {
           lat: password,
           lng: password,
         };
-        setAddress({ ...address, geo });
+        const userAddress: Address = { ...address, geo };
+        setAddress(userAddress);
         const newUser = new User({
           username: userName,
-          address,
+          address:userAddress,
           name: fullName,
           company,
           phone: phoneNumber,
@@ -172,6 +176,7 @@ export default function SignUp() {
         });
         newUser.push().then(() => {
             setAuth(newUser);
+            navigate("/home");
         });
       });
     }
