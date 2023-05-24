@@ -24,7 +24,7 @@ export default function AlbumsList() {
   }, [user]);
 
   const albumsDOM = albums.map((album: Album) => {
-    return <AlbumsItem album={album} key={album.id} />;
+    return <AlbumsItem album={album} key={album.id} forceShowPhotos={false}/>;
   });
 
   return <ListGroup>{albumsDOM}</ListGroup>;

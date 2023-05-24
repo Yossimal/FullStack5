@@ -1,16 +1,24 @@
 import { ListGroupItem, Card, Button } from "react-bootstrap";
 import Album from "../../../../lib/data/dataObjects/Album";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PhotosList from "./photos-list";
+import { Nullable } from "../../../../types/react.types";
 
 type AlbumItemProps = {
-  album: Album;
+  album: Nullable<Album>;
+  forceShowPhotos: Boolean;
 };
 
-export default function AlbumItem({ album }: AlbumItemProps) {
+export default function AlbumsItem({ album, forceShowPhotos }: AlbumItemProps) {
   if (!album) return <></>;
 
   const [showPhotos, setShowPhotos] = useState<Boolean>(false);
+
+  useEffect(() => {
+    if (forceShowPhotos) {
+      setShowPhotos(true);
+    }
+  }, [forceShowPhotos]);
 
   return (
     <ListGroupItem>
@@ -18,9 +26,10 @@ export default function AlbumItem({ album }: AlbumItemProps) {
         <Card>
           <Card.Body>
             <Card.Title>{album.title}</Card.Title>
-            <Button onClick={ () => {setShowPhotos(!showPhotos)}}>
-              {showPhotos ? "Hide Photos" : "Show Photos"}
-            </Button>
+            {!forceShowPhotos && (<Button onClick={ () => {setShowPhotos(!showPhotos)}}>
+              {showPhotos ? "Hide Photos" : "Show Photos"} 
+            </Button>)
+            }
           </Card.Body>
         </Card>
 

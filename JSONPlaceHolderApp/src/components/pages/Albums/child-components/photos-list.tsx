@@ -18,7 +18,7 @@ export default function PhotosList({ album }: PhotosListProps) {
   const fetchPhotos = async () => {
     console.log("fetching photos");
     try {
-      album.photos(page, 6).then((newPhotos) => {
+      album.photos(page, 12).then((newPhotos) => {
         if (newPhotos.length === 0) {
           setHasMore(false);
         }
@@ -28,18 +28,20 @@ export default function PhotosList({ album }: PhotosListProps) {
           const unique = combined.filter((photo, index, self) => {
             return index === self.findIndex((p) => p.id === photo.id);
           });
+          if (unique.length > prevPhotos.length) {
+            // Update page number and check if there is more data available
+            setPage((prevPage) => prevPage + 1);
+          }
           return unique;
         });
       });
 
-      // Update page number and check if there is more data available
-      setPage((prevPage) => prevPage + 1);
+      
     } catch (error) {
-      console.error("Error fetching albums:", error);
+      console.error("Error fetching Photos: ", error);
     }
   };
 
-  // TODO - fix useEffect being called twice
   useEffect(() => {
     fetchPhotos();
   }, []);
@@ -55,7 +57,7 @@ export default function PhotosList({ album }: PhotosListProps) {
       <Row>
         {photos.map((photo) => (
           <Col key={photo.id} md={4}>
-            <img src={photo.url} alt={photo.title} className="img-fluid" />
+            <img src={photo.thumbnailUrl} alt={photo.title} className="img-fluid" />
             <h4>{photo.title}</h4>
           </Col>
         ))}
