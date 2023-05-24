@@ -86,7 +86,6 @@ export default function TodosList({ sortBy, filterBy }: TodosListProps) {
     setShownTodos(filteredTodos);
   };
 
-  // TODO change to UseReducer
   useEffect(() => {
     user.todos.then((todos) => {
       setTodos(todos);
