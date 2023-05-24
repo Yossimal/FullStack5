@@ -135,6 +135,7 @@ export default class User extends DataObject {
       phone: this._phone,
       website: this._website,
       company: this._company,
+      email: this._email,
     };
   }
 
@@ -147,6 +148,7 @@ export default class User extends DataObject {
     this._phone = objTyped.phone;
     this._website = objTyped.website;
     this._company = objTyped.company;
+    this._email = objTyped.email;
   }
 
   public get albums(): Promise<Album[]> {
