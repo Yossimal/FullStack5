@@ -125,7 +125,7 @@ export default function TodosList({ sortBy, filterBy }: TodosListProps) {
 
   return (
     <ListGroup>
-      <ListGroupItem>
+      <ListGroupItem key="-23434989">
         <InputGroup>
           <Button onClick={addTodo}>Add Todo</Button>
           <Form.Control value={newTodoTitle} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewTodoTitle(e.target.value)} />

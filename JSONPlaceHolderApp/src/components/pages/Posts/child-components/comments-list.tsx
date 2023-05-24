@@ -20,6 +20,7 @@ export default function CommentsList({ post, user }: CommentsListProps) {
   if (!post) return <></>;
 
   const [comments, setComments] = useState<Comment[]>([]);
+  const [newCommentName, setNewCommentName] = useState<string>("");
   const [newCommentBody, setNewCommentBody] = useState<string>("");
 
   const getComments = useMemo(() => {
@@ -39,13 +40,14 @@ export default function CommentsList({ post, user }: CommentsListProps) {
   const addComment = () => {
     const newComment = new Comment({
       postId: post.id,
-      name: user.name,
+      name: newCommentName,
       email: user.email,
       body: newCommentBody,
     });
     newComment.push();
-    setComments(prev => [newComment, ...prev]);
+    setComments((prev) => [newComment, ...prev]);
     setNewCommentBody("");
+    setNewCommentName("");
   };
 
   return (
@@ -57,7 +59,15 @@ export default function CommentsList({ post, user }: CommentsListProps) {
             <InputGroup>
               <Button onClick={addComment}>Add Comment</Button>
               <Form.Control
+                value={newCommentName}
+                placeholder="Comment Name"
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setNewCommentName(e.target.value)
+                }
+              />
+              <Form.Control
                 value={newCommentBody}
+                placeholder=" Body"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   setNewCommentBody(e.target.value)
                 }
