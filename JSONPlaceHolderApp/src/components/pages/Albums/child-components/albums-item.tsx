@@ -1,41 +1,24 @@
-import { ListGroupItem, Card, Button, Row, Col } from "react-bootstrap";
-import InfiniteScroll from "react-infinite-scroll-component";
+import { ListGroupItem, Card, Button } from "react-bootstrap";
 import Album from "../../../../lib/data/dataObjects/Album";
-import { useState } from "react";
-import Photo from "../../../../lib/data/dataObjects/Photo";
+import { useEffect, useState } from "react";
+import PhotosList from "./photos-list";
+import { Nullable } from "../../../../types/react.types";
 
 type AlbumItemProps = {
-  album: Album;
+  album: Nullable<Album>;
+  forceShowPhotos: Boolean;
 };
 
-export default function AlbumItem({ album }: AlbumItemProps) {
+export default function AlbumsItem({ album, forceShowPhotos }: AlbumItemProps) {
   if (!album) return <></>;
 
-  const [photos, setPhotos] = useState<Photo[]>([]);
   const [showPhotos, setShowPhotos] = useState<Boolean>(false);
-  const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
 
-  const handleShowPhotos = () => {
-    setShowPhotos((show) => !show);
-    if (showPhotos) fetchPhotos();
-  };
-
-  const fetchPhotos = async () => {
-    try {
-      album.photos({ _page: page }).then((newPhotos) => {
-        if (newPhotos.length === 0) {
-          setHasMore(false);
-        }
-        setPhotos((prevPhotos) => [...prevPhotos, ...newPhotos]);
-      });
-
-      // Update page number and check if there is more data available
-      setPage((prevPage) => prevPage + 1);
-    } catch (error) {
-      console.error("Error fetching albums:", error);
+  useEffect(() => {
+    if (forceShowPhotos) {
+      setShowPhotos(true);
     }
-  };
+  }, [forceShowPhotos]);
 
   return (
     <ListGroupItem>
@@ -43,50 +26,15 @@ export default function AlbumItem({ album }: AlbumItemProps) {
         <Card>
           <Card.Body>
             <Card.Title>{album.title}</Card.Title>
-            <Button onClick={handleShowPhotos}>
-              {showPhotos ? "Hide Photos" : "Show Photos"}
-            </Button>
+            {!forceShowPhotos && (<Button onClick={ () => {setShowPhotos(!showPhotos)}}>
+              {showPhotos ? "Hide Photos" : "Show Photos"} 
+            </Button>)
+            }
           </Card.Body>
         </Card>
 
-        {showPhotos && (
-          <InfiniteScroll
-            dataLength={photos.length}
-            next={fetchPhotos}
-            hasMore={hasMore}
-            loader={<h4>Loading...</h4>}
-            endMessage={<p>No more photos to load.</p>}
-          >
-            <Row>
-              {photos.map((photo) => (
-                <Col key={photo.id} md={4}>
-                  <img
-                    src={photo.url}
-                    alt={photo.title}
-                    className="img-fluid"
-                  />
-                  <h4>{photo.title}</h4>
-                </Col>
-              ))}
-            </Row>
-          </InfiniteScroll>
-        )}
+        {showPhotos && <PhotosList album={album}/> }
       </div>
     </ListGroupItem>
   );
 }
-
-// <Card className="mt-3">
-//             <Card.Body>
-//               <Card.Title>Photos</Card.Title>
-//               <ListGroup>
-//                 {photos.map((photo) => (
-//                   <ListGroup.Item key={photo.id}>
-//                     <img src={photo.url} alt={photo.title} />
-//                     <h2>{photo.title}</h2>
-//                     <p>URL: {photo.thumbnailUrl}</p>
-//                   </ListGroup.Item>
-//                 ))}
-//               </ListGroup>
-//             </Card.Body>
-//           </Card>

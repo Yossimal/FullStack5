@@ -25,7 +25,7 @@
     },
     "ui": {
       "enabled": true,
-      "port": 7070
+      "port": 8080
     },
     "singleProjectMode": true
   }

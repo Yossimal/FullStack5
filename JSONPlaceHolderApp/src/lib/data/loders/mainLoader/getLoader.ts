@@ -4,6 +4,7 @@ type GettersType = {
   getList: <T extends Indexable>(path: string) => Promise<T[]>;
   getOne: <T extends Indexable>(fullPath: string) => Promise<T | null>;
   find: (path: string, query: any) => Promise<any[]>;
+  page: (path: string, page: number, limit: number) => Promise<any[]>;
   priority: number;
 };
 
@@ -51,6 +52,26 @@ export async function find<T extends Indexable>(
   let results: { [id: string]: T } = {};
   for (const func of functions) {
     const res = await func.find(path, query);
+    if (!res || res.length === 0) {
+      continue;
+    }
+    results = res.reduce((acc, cur, index) => {
+      acc[cur.id ?? index.toString()] = cur;
+      return acc;
+    }, results);
+    return res;
+  }
+  return Object.keys(results).map((key) => results[key]);
+}
+
+export async function page(
+  path: string,
+  page: number,
+  limit: number
+): Promise<any[]> {
+  let results: { [id: string]: Indexable } = {};
+  for (const func of functions) {
+    const res = await func.page(path, page, limit);
     if (!res || res.length === 0) {
       continue;
     }

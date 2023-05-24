@@ -24,11 +24,18 @@ async function find(path: string, query: any): Promise<any[]> {
     .then((data) => data as any[]);
 }
 
+async function page(path: string, page: number,limit:number): Promise<any[]> {
+  return fetch(`${JSON_PLACEHOLDER_URL}/${path}?_page=${page}&_limit=${limit}`)
+    .then((res) => res.json())
+    .then((data) => data as any[]);
+}
+
 export default function initJPHGetLoader() {
   registerGetters({
     getList,
     getOne,
     find,
+    page,
     priority: 1,
   });
 }

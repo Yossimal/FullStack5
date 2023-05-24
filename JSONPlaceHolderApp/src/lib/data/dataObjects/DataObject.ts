@@ -1,6 +1,7 @@
 import Indexable from "../loders/interfaces/Indexable";
 import { find } from "../loders/mainLoader/getLoader";
 import { getOne } from "../loders/mainLoader/getLoader";
+import { push, save } from "../loders/mainLoader/saveLoder";
 
 export type DataObjectType = Partial<{
   id: string;
@@ -57,15 +58,22 @@ export default class DataObject implements Indexable {
     this._id = objTyped.id;
   }
 
-  public async first(query: any): Promise<void> {
+  public async first(query: any): Promise<DataObject|undefined> {
     const results = await find(this.path, query);
     if (results.length === 0) {
-      return;
+      return undefined;
     }
     this.fromUnknowObject(results[0]);
+    return this;
   }
 
-  public async save(): Promise<DataObject> {
-    throw new Error("Method not implemented.");
+  public async save(): Promise<void> {
+    await save(this.fullPath, this.toUnknowObject() as Indexable);
+
+  }
+
+  public async push(): Promise<void> {
+    const data = await push(this.path, this.toUnknowObject() as Indexable);
+    this.id = data;
   }
 }
