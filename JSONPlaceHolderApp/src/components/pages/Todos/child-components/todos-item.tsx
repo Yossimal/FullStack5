@@ -1,6 +1,6 @@
 import { ListGroupItem, Form } from "react-bootstrap";
 import Todo from "../../../../lib/data/dataObjects/Todo";
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 type TodosItemProps = {
   todo: Todo;
@@ -11,13 +11,12 @@ export default function TodosItem({ todo, setTodo }: TodosItemProps) {
   if (!todo || todo.completed == null) return <></>;
 
   const handleCheckChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTodo(
-      new Todo({
-        ...(todo.toUnknowObject() as any),
-        completed: event.target.checked,
-      })
-    );
-    todo.save();
+    const newTodo = new Todo({
+      ...(todo.toUnknowObject() as any),
+      completed: event.target.checked,
+    })
+    setTodo(newTodo);
+    newTodo.save();
   };
 
   return (

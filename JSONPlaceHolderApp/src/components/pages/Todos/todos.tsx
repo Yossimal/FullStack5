@@ -31,7 +31,6 @@ export default function Todos() {
           <div className="d-flex flex-row gap-2">
             <label>Sort by</label>
             <select title="Sort By" value={sortBy} onChange={handleSortOptionChange}>
-              <label>Sort By</label>
               {Object.keys(SortMethod).map((key) => (
                 <option
                   key={key}
