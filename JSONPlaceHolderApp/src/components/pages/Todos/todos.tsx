@@ -6,7 +6,6 @@ import { SortBy as SortMethod, FilterBy as FilterMethod } from "./types";
 export default function Todos() {
   const [sortBy, setSortBy] = useState<string>(SortMethod.ID);
   const [filterBy, setFilterBy] = useState<string>(FilterMethod.NONE);
-  //const [newTodoTitle, setNewTodoTitle] = useState<string>();
 
   const handleSortOptionChange = (
     event: React.ChangeEvent<HTMLSelectElement>
