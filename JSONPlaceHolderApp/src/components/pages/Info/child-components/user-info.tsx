@@ -48,6 +48,18 @@ const UserInfo = ({ user, setUser }: UserItemProps) => {
 
 
   const onSubmit = () => {
+    const newAddress = { street: streetValue, suite: suiteValue, city: cityValue, zipcode: zipcodeValue, geo };
+    const newCompany = {name: companyNameValue, catchPhrase: catchPhraseValue, bs: bsValue};
+    const newUser = new User({
+      id,
+      username: usernameValue,
+      email: emailValue,
+      address: newAddress,
+      name: nameValue,
+      company: newCompany,
+      phone: phoneValue,
+      website: websiteValue
+    });
     if (username != usernameValue) {
       const checkUser = new User({});
       checkUser.first({ username:usernameValue }).then(() => {
@@ -55,18 +67,6 @@ const UserInfo = ({ user, setUser }: UserItemProps) => {
         setAlert("User Name already exists.");
         return;
       }
-      const newAddress = { street: streetValue, suite: suiteValue, city: cityValue, zipcode: zipcodeValue, geo };
-      const newCompany = {name: companyNameValue, catchPhrase: catchPhraseValue, bs: bsValue};
-      const newUser = new User({
-        id,
-        username: usernameValue,
-        email: emailValue,
-        address: newAddress,
-        name: nameValue,
-        company: newCompany,
-        phone: phoneValue,
-        website: websiteValue
-      });
       newUser.save();
       setUser(newUser);
       setIsEditable(!isEditable);
@@ -74,6 +74,8 @@ const UserInfo = ({ user, setUser }: UserItemProps) => {
     }
     else {
       setIsEditable(!isEditable);
+      newUser.save();
+      setUser(newUser);
     }
     closeAlert();
   };
