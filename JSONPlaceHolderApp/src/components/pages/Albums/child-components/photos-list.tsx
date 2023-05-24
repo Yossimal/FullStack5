@@ -1,12 +1,14 @@
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Image } from "react-bootstrap";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Album from "../../../../lib/data/dataObjects/Album";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState, useCallback } from "react";
 import Photo from "../../../../lib/data/dataObjects/Photo";
+import ImageModal from "./image-modal";
 
 type PhotosListProps = {
   album: Album;
 };
+const PHOTOS_IN_PAGE = 12;
 
 export default function PhotosList({ album }: PhotosListProps) {
   if (!album) return <></>;
@@ -14,11 +16,18 @@ export default function PhotosList({ album }: PhotosListProps) {
   const [photos, setPhotos] = useState<Photo[]>([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
+  const [selectedImage, setSelectedImage] = useState<Photo | undefined>(
+    undefined
+  );
+
+  const getPhotos = useMemo(() => {
+    return album.photos(page, PHOTOS_IN_PAGE);
+  }, [page, album]);
 
   const fetchPhotos = async () => {
     console.log("fetching photos");
     try {
-      album.photos(page, 6).then((newPhotos) => {
+      getPhotos.then((newPhotos) => {
         if (newPhotos.length === 0) {
           setHasMore(false);
         }
@@ -39,27 +48,40 @@ export default function PhotosList({ album }: PhotosListProps) {
     }
   };
 
-  // TODO - fix useEffect being called twice
+  const closeModal = () => {
+    setSelectedImage(undefined);
+  };
+
   useEffect(() => {
     fetchPhotos();
   }, []);
 
   return (
-    <InfiniteScroll
-      dataLength={photos.length}
-      next={fetchPhotos}
-      hasMore={hasMore}
-      loader={<h4>Loading...</h4>}
-      endMessage={<p>No more photos to load.</p>}
-    >
-      <Row>
-        {photos.map((photo) => (
-          <Col key={photo.id} md={4}>
-            <img src={photo.url} alt={photo.title} className="img-fluid" />
-            <h4>{photo.title}</h4>
-          </Col>
-        ))}
-      </Row>
-    </InfiniteScroll>
+    <>
+      <InfiniteScroll
+        dataLength={photos.length}
+        next={fetchPhotos}
+        hasMore={hasMore}
+        loader={<h4>Loading...</h4>}
+        endMessage={<p>No more photos to load.</p>}
+      >
+        <Row>
+          {photos.map((photo) => (
+            <Col key={photo.id} md={3} className="text-center">
+              <Image
+                thumbnail
+                src={photo.thumbnailUrl}
+                alt={photo.title}
+                onClick={() => {
+                  setSelectedImage(photo);
+                }}
+              />
+              <h4>{photo.title}</h4>
+            </Col>
+          ))}
+        </Row>
+      </InfiniteScroll>
+      <ImageModal close={closeModal} image={selectedImage} />
+    </>
   );
 }

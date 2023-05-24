@@ -1,7 +1,7 @@
 import { ListGroup } from "react-bootstrap";
 import { useSession } from "../../../../hooks/use-session-storage/use-session";
 import User from "../../../../lib/data/dataObjects/User";
-import { useEffect, useState } from "react";
+import { useEffect, useState,useMemo } from "react";
 import Post from "../../../../lib/data/dataObjects/Post";
 import PostsItem from "./posts-item";
 import { Nullable } from "../../../../types/react.types";
@@ -19,8 +19,12 @@ export default function PostsList() {
 
   if (!user?.id) return <></>;
 
+    const loadPosts = useMemo(():Promise<Post[]>=>{
+        return user.posts;
+    },[user.id])
+
   useEffect(() => {
-    user.posts.then((posts) => {
+    loadPosts.then((posts) => {
       setPosts(posts);
     });
   }, [user]);

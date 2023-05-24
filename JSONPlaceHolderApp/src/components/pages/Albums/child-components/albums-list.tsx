@@ -1,7 +1,7 @@
 import { ListGroup } from "react-bootstrap";
 import { useSession } from "../../../../hooks/use-session-storage/use-session";
 import User from "../../../../lib/data/dataObjects/User";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
  import Album from "../../../../lib/data/dataObjects/Album";
  import AlbumsItem from "./albums-item";
 import { Nullable } from "../../../../types/react.types";
@@ -17,8 +17,12 @@ export default function AlbumsList() {
 
   if (!user?.id) return <></>;
 
+    const getAlbums = useMemo(()=>{
+      return user.albums;
+    },[user.id])
+
   useEffect(() => {
-    user.albums.then((albums) => {
+    getAlbums.then((albums) => {
         setAlbums(albums);
     });
   }, [user]);
