@@ -1,4 +1,10 @@
-import { ListGroup } from "react-bootstrap";
+import {
+  Button,
+  Form,
+  InputGroup,
+  ListGroup,
+  ListGroupItem,
+} from "react-bootstrap";
 import { useSession } from "../../../../hooks/use-session-storage/use-session";
 import User from "../../../../lib/data/dataObjects/User";
 import { useEffect, useState } from "react";
@@ -17,6 +23,7 @@ export default function TodosList({ sortBy, filterBy }: TodosListProps) {
   const [user, _] = useSession<Nullable<User>>("user", null, UserSerializer);
   const [todos, setTodos] = useState<Todo[]>([]);
   const [shownTodos, setShownTodos] = useState<Todo[]>([]);
+  const [newTodoTitle, setNewTodoTitle] = useState<string>("");
 
   if (!user?.id) return <></>;
 
@@ -105,9 +112,26 @@ export default function TodosList({ sortBy, filterBy }: TodosListProps) {
     }
   };
 
+  const addTodo = () => {
+    const newTodo = new Todo({userId: user.id, title: newTodoTitle, completed: false});
+    setTodos(prev => [newTodo, ...prev]);
+    newTodo.push();
+    setNewTodoTitle("");
+  };
+
   const todosDOM = shownTodos.map((todo: Todo) => {
     return <TodosItem todo={todo} setTodo={setTodo} key={todo.id} />;
   });
 
-  return <ListGroup>{todosDOM}</ListGroup>;
+  return (
+    <ListGroup>
+      <ListGroupItem>
+        <InputGroup>
+          <Button onClick={addTodo}>Add Todo</Button>
+          <Form.Control value={newTodoTitle} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewTodoTitle(e.target.value)} />
+        </InputGroup>
+      </ListGroupItem>
+      {todosDOM}
+    </ListGroup>
+  );
 }

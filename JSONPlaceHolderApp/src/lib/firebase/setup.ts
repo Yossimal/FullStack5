@@ -12,7 +12,7 @@ const firebaseConfig = {
   appId: "1:701884432339:web:86173603ac097aaacd7926",
   measurementId: "G-QHLGGHQCWL",
 };
-const isDev = import.meta.env["DEV"];
+const isDev = false; //import.meta.env["DEV"];
 const app = initializeApp(firebaseConfig);
 const db = isDev ? getDatabase() : getDatabase(app);
 const auth = isDev ? getAuth() : getAuth(app);
