@@ -59,7 +59,8 @@ const UserInfo = ({ user, setUser }: UserItemProps) => {
       const newCompany = {name: companyNameValue, catchPhrase: catchPhraseValue, bs: bsValue};
       const newUser = new User({
         id,
-        username,
+        username: usernameValue,
+        email: emailValue,
         address: newAddress,
         name: nameValue,
         company: newCompany,
