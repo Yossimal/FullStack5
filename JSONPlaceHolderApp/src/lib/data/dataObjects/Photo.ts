@@ -2,7 +2,7 @@ import DataObject, { DataObjectType } from "./DataObject";
 
 export type PhotoObjectType = Partial<
   DataObjectType & {
-    albumId: number;
+    albumId: string;
     title: string;
     url: string;
     thumbnailUrl: string;
@@ -10,7 +10,7 @@ export type PhotoObjectType = Partial<
 >;
 
 export default class Photo extends DataObject {
-  protected _albumId?: number;
+  protected _albumId?: string;
   protected _title?: string;
   protected _url?: string;
   protected _thumbnailUrl?: string;
@@ -29,11 +29,11 @@ export default class Photo extends DataObject {
 
   public static PATH = "photos";
 
-  get albumId(): number | undefined {
+  get albumId(): string | undefined {
     return this._albumId;
   }
 
-  set albumId(albumId: number | undefined) {
+  set albumId(albumId: string | undefined) {
     this._albumId = albumId;
   }
 

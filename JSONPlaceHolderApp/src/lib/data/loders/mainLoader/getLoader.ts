@@ -18,15 +18,22 @@ export function registerGetters(getters: GettersType) {
 
 export async function getList<T extends Indexable>(path: string): Promise<T[]> {
   let results: { [id: string]: T } = {};
+  const prioretizedResults: { [priorety: string]: any } = {};
   for (const func of functions) {
     const res = await func.getList<T>(path);
     if (!res || res.length === 0) {
       continue;
     }
-    results = res.reduce((acc, cur, index) => {
+    prioretizedResults[func.priority] = res.reduce((acc, cur, index) => {
       acc[cur.id ?? index.toString()] = cur;
       return acc;
-    }, results);
+    }, prioretizedResults[func.priority] ?? {});
+  }
+  const priorityKeySorted = Object.keys(prioretizedResults).sort(
+    (a, b) => Number(b) - Number(a)
+  );
+  for (const key of priorityKeySorted) {
+    results = { ...results, ...prioretizedResults[key] };
   }
   return Object.keys(results).map((key) => results[key]);
 }
@@ -50,16 +57,23 @@ export async function find<T extends Indexable>(
   query: any
 ): Promise<T[]> {
   let results: { [id: string]: T } = {};
+  const prioretizedResults: { [priorety: string]: any } = {};
+
   for (const func of functions) {
     const res = await func.find(path, query);
     if (!res || res.length === 0) {
       continue;
     }
-    results = res.reduce((acc, cur, index) => {
+    prioretizedResults[func.priority] = res.reduce((acc, cur, index) => {
       acc[cur.id ?? index.toString()] = cur;
       return acc;
-    }, results);
-    return res;
+    }, prioretizedResults[func.priority] ?? {});
+  }
+  const priorityKeySorted = Object.keys(prioretizedResults).sort(
+    (a, b) => Number(b) - Number(a)
+  );
+  for (const key of priorityKeySorted) {
+    results = { ...results, ...prioretizedResults[key] };
   }
   return Object.keys(results).map((key) => results[key]);
 }
@@ -70,16 +84,23 @@ export async function page(
   limit: number
 ): Promise<any[]> {
   let results: { [id: string]: Indexable } = {};
+  const prioretizedResults: { [priorety: string]: any } = {};
+
   for (const func of functions) {
-    const res = await func.page(path, page, limit);
+    const res = await func.page(path, page,limit);
     if (!res || res.length === 0) {
       continue;
     }
-    results = res.reduce((acc, cur, index) => {
+    prioretizedResults[func.priority] = res.reduce((acc, cur, index) => {
       acc[cur.id ?? index.toString()] = cur;
       return acc;
-    }, results);
-    return res;
+    }, prioretizedResults[func.priority] ?? {});
+  }
+  const priorityKeySorted = Object.keys(prioretizedResults).sort(
+    (a, b) => Number(b) - Number(a)
+  );
+  for (const key of priorityKeySorted) {
+    results = { ...results, ...prioretizedResults[key] };
   }
   return Object.keys(results).map((key) => results[key]);
 }

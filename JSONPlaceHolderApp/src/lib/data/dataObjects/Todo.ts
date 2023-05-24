@@ -56,8 +56,12 @@ export default class Todo extends DataObject {
   }
 
   override get path(): string {
-    return "todos";
+    if(!this.userId){
+      throw new Error("The path can't be generated without an userId");
+    }
+    return `users/${this.userId}/todos`;
   }
+
 
   public fromUnknowObject(obj: unknown): void {
     super.fromUnknowObject(obj);
