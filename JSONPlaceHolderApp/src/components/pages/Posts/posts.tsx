@@ -1,6 +1,7 @@
 import { Container, Row, Col } from "react-bootstrap";
 import PostsList from "./child-components/posts-list";
 import { useState } from "react";
+import { SortBy as SortMethod} from "./types";
 
 export default function Posts() {
 
@@ -21,8 +22,14 @@ export default function Posts() {
         <Col>
           <label>Sort By</label>
           <select title="sort options" value={sortBy} onChange={handleSortOptionChange}>
-            <option value="id">ID</option>
-            <option value="name">Name</option>
+          {Object.keys(SortMethod).map((key) => (
+                <option
+                  key={key}
+                  value={SortMethod[key as keyof typeof SortMethod]}
+                >
+                  {key}
+                </option>
+              ))}
           </select>
         </Col>
       </Row>

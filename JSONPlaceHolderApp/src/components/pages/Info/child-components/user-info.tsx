@@ -30,10 +30,6 @@ const UserInfo = ({ user, setUser }: UserItemProps) => {
 
   const [alert, setAlert] = useState("");
 
-  // useEffect(() => {
-  //   setUsernameValue(username ?? "");
-  // }, [username]);
-
   const closeAlert = () => {
     setAlert("");
   };
@@ -51,20 +47,33 @@ const UserInfo = ({ user, setUser }: UserItemProps) => {
 
 
   const onSubmit = () => {
-    setIsEditable(!isEditable);
-    const newAddress = { street: streetValue, suite: suiteValue, city: cityValue, zipcode: zipcodeValue, geo };
-    const newCompany = {name: companyNameValue, catchPhrase: catchPhraseValue, bs: bsValue};
-    const newUser = new User({
-      id,
-      username,
-      address: newAddress,
-      name: nameValue,
-      company: newCompany,
-      phone: phoneValue,
-      website: websiteValue
-    });
-    newUser.save();
-    setUser(newUser);
+    if (username != usernameValue) {
+      const checkUser = new User({});
+      checkUser.first({ username:usernameValue }).then(() => {
+      if (checkUser.id) {
+        setAlert("User Name already exists.");
+        return;
+      }
+      const newAddress = { street: streetValue, suite: suiteValue, city: cityValue, zipcode: zipcodeValue, geo };
+      const newCompany = {name: companyNameValue, catchPhrase: catchPhraseValue, bs: bsValue};
+      const newUser = new User({
+        id,
+        username,
+        address: newAddress,
+        name: nameValue,
+        company: newCompany,
+        phone: phoneValue,
+        website: websiteValue
+      });
+      newUser.save();
+      setUser(newUser);
+      setIsEditable(!isEditable);
+      });
+    }
+    else {
+      setIsEditable(!isEditable);
+    }
+    closeAlert();
   };
 
   return (<>

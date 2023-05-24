@@ -66,6 +66,7 @@ export default function PhotosList({ album }: PhotosListProps) {
         next={fetchPhotos}
         hasMore={hasMore}
         loader={<h4>Loading...</h4>}
+        scrollThreshold={0.5}
         endMessage={<p>No more photos to load.</p>}
       >
         <Row>

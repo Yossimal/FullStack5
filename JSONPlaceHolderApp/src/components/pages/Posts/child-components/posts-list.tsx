@@ -6,6 +6,7 @@ import Post from "../../../../lib/data/dataObjects/Post";
 import PostsItem from "./posts-item";
 import { Nullable } from "../../../../types/react.types";
 import { UserSerializer } from "../../../../lib/data/dataObjects/serialization";
+import { SortBy } from "../types";
 
 type PostlistProps = {
   sortBy: string;
@@ -30,13 +31,13 @@ export default function PostsList({ sortBy }: PostlistProps) {
     let sortedPosts: Post[];
 
     switch (sortBy) {
-      case 'name':
+      case SortBy.NAME:
         sortedPosts = [...posts].sort((a, b) => {
           if (a.title && b.title) { return a.title.localeCompare(b.title) }
           return 0;
         });
         break;
-      case 'id':
+      case SortBy.ID:
         sortedPosts = [...posts].sort((a, b) => {
           if (a.id && b.id) {
             const idA = String(a.id);
