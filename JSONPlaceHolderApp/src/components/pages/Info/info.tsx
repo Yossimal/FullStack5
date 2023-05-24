@@ -6,7 +6,7 @@ import { Nullable } from "../../../types/react.types";
 import { UserSerializer } from "../../../lib/data/dataObjects/serialization";
 
 export default function Info() {
-  const [user, _] = useSession<Nullable<User>>("user", null, UserSerializer);
+  const [user, setUser] = useSession<Nullable<User>>("user", null, UserSerializer);
 
   if (!user?.id) return <></>;
 
@@ -19,7 +19,7 @@ export default function Info() {
       </Row>
       <Row>
         <Col>
-          <UserInfo user={user}></UserInfo>
+          <UserInfo user={user} setUser={setUser}></UserInfo>
         </Col>
       </Row>
     </Container>
