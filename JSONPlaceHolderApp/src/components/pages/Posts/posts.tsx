@@ -1,7 +1,15 @@
 import { Container, Row, Col } from "react-bootstrap";
 import PostsList from "./child-components/posts-list";
+import { useState } from "react";
 
 export default function Posts() {
+
+  const [sortBy, setSortBy] = useState('id');
+
+  const handleSortOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSortBy(event.target.value);
+  };
+
   return (
     <Container>
       <Row className="text-center">
@@ -11,7 +19,16 @@ export default function Posts() {
       </Row>
       <Row>
         <Col>
-          <PostsList />
+          <label>Sort By</label>
+          <select value={sortBy} onChange={handleSortOptionChange}>
+            <option value="id">ID</option>
+            <option value="name">Name</option>
+          </select>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <PostsList sortBy={sortBy}/>
         </Col>
       </Row>
     </Container>
