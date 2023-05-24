@@ -1,29 +1,37 @@
 import { ListGroupItem, Form } from "react-bootstrap";
 import Todo from "../../../../lib/data/dataObjects/Todo";
-import { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 
 type TodosItemProps = {
   todo: Todo;
+  setTodo: (todo: Todo) => void;
 };
 
-export default function TodosItem({ todo }: TodosItemProps) {
+export default function TodosItem({ todo, setTodo }: TodosItemProps) {
   if (!todo || todo.completed == null) return <></>;
 
-  const [checked, setChecked] = useState<boolean>(todo.completed);
-
-  useEffect(() => {
-    const newTodo = new Todo({
-      id: todo.id,
-      userId: todo.userId,
-      title: todo.title,
-      completed: checked
-    });
-    newTodo.save();
-  }, [checked])
+  const handleCheckChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTodo(
+      new Todo({
+        ...(todo.toUnknowObject() as any),
+        completed: event.target.checked,
+      })
+    );
+    todo.save();
+  };
 
   return (
     <ListGroupItem>
-      <Form.Check onClick={() => {console.log(checked); setChecked(!checked)}} type="checkbox" checked={checked} label={<span style={{ textDecoration: checked ? "line-through" : "none" }}>{todo.title}</span>} />
+      <Form.Check
+        onChange={handleCheckChange}
+        type="checkbox"
+        checked={todo.completed}
+        label={
+          <span style={{ textDecoration: todo.completed ? "line-through" : "none" }}>
+            {todo.title}
+          </span>
+        }
+      />
     </ListGroupItem>
   );
 }

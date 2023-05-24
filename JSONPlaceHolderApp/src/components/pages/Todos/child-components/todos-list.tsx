@@ -13,15 +13,10 @@ type TodosListProps = {
   filterBy: string;
 };
 
-export default function TodosList({sortBy, filterBy}: TodosListProps) {
-  const [user, _] = useSession<Nullable<User>>(
-    "user",
-    null,
-    UserSerializer
-  );
+export default function TodosList({ sortBy, filterBy }: TodosListProps) {
+  const [user, _] = useSession<Nullable<User>>("user", null, UserSerializer);
   const [todos, setTodos] = useState<Todo[]>([]);
   const [shownTodos, setShownTodos] = useState<Todo[]>([]);
-
 
   if (!user?.id) return <></>;
 
@@ -31,7 +26,9 @@ export default function TodosList({sortBy, filterBy}: TodosListProps) {
     switch (sortBy) {
       case SortBy.NAME:
         sortedPosts = [...shownTodos].sort((a, b) => {
-          if (a.title && b.title) { return a.title.localeCompare(b.title) }
+          if (a.title && b.title) {
+            return a.title.localeCompare(b.title);
+          }
           return 0;
         });
         break;
@@ -49,10 +46,10 @@ export default function TodosList({sortBy, filterBy}: TodosListProps) {
       case SortBy.CHECKED:
         sortedPosts = [...shownTodos].sort((a, b) => {
           if (a.completed && !b.completed) {
-            return -1; // a comes before b
+            return 1; // a comes before b
           }
           if (!a.completed && b.completed) {
-            return 1; // b comes before a
+            return -1; // b comes before a
           }
           return 0; // the order remains unchanged
         });
@@ -62,7 +59,7 @@ export default function TodosList({sortBy, filterBy}: TodosListProps) {
         break;
     }
     setShownTodos(sortedPosts);
-  }
+  };
 
   const handleFilter = () => {
     let filteredTodos: Todo[];
@@ -80,12 +77,13 @@ export default function TodosList({sortBy, filterBy}: TodosListProps) {
         break;
     }
     setShownTodos(filteredTodos);
-  }
+  };
 
+  // TODO change to UseReducer
   useEffect(() => {
     user.todos.then((todos) => {
       setTodos(todos);
-      setShownTodos(todos)
+      setShownTodos(todos);
     });
   }, [user]);
 
@@ -95,10 +93,20 @@ export default function TodosList({sortBy, filterBy}: TodosListProps) {
 
   useEffect(() => {
     handleFilter();
-  }, [filterBy]);
+  }, [filterBy, todos]);
+
+  const setTodo = (newTodo: Todo) => {
+    const todoToChange = todos.findIndex((t: Todo) => newTodo.id === t.id);
+    if (todoToChange >= 0) {
+      setTodos((prev) => {
+        prev[todoToChange] = newTodo;
+        return [...prev];
+      });
+    }
+  };
 
   const todosDOM = shownTodos.map((todo: Todo) => {
-    return <TodosItem todo={todo} key={todo.id} />;
+    return <TodosItem todo={todo} setTodo={setTodo} key={todo.id} />;
   });
 
   return <ListGroup>{todosDOM}</ListGroup>;
