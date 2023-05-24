@@ -2,14 +2,14 @@ import DataObject, { DataObjectType } from "./DataObject";
 
 export type TodoObjectType = Partial<
   DataObjectType & {
-    userId: number;
+    userId: string;
     title: string;
     completed: boolean;
   }
 >;
 
 export default class Todo extends DataObject {
-  protected _userId?: number;
+  protected _userId?: string;
   protected _title?: string;
   protected _completed?: boolean;
 
@@ -22,11 +22,11 @@ export default class Todo extends DataObject {
 
   public static PATH = "todos";
 
-  get userId(): number | undefined {
+  get userId(): string | undefined {
     return this._userId;
   }
 
-  set userId(userId: number | undefined) {
+  set userId(userId: string | undefined) {
     this._userId = userId;
   }
 
@@ -56,8 +56,12 @@ export default class Todo extends DataObject {
   }
 
   override get path(): string {
-    return "todos";
+    if(!this.userId){
+      throw new Error("The path can't be generated without an userId");
+    }
+    return `users/${this.userId}/todos`;
   }
+
 
   public fromUnknowObject(obj: unknown): void {
     super.fromUnknowObject(obj);

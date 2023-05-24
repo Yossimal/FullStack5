@@ -4,14 +4,14 @@ import DataObject, { DataObjectType } from "./DataObject";
 
 export type PostType = Partial<
   DataObjectType & {
-    userId: number;
+    userId: string;
     title: string;
     body: string;
   }
 >;
 
 export default class Post extends DataObject {
-  protected _userId?: number;
+  protected _userId?: string;
   protected _title?: string;
   protected _body?: string;
 
@@ -24,11 +24,11 @@ export default class Post extends DataObject {
 
     public static PATH = "posts";
 
-  get userId(): number | undefined {
+  get userId(): string | undefined {
     return this._userId;
   }
 
-  set userId(userId: number | undefined) {
+  set userId(userId: string | undefined) {
     this._userId = userId;
   }
 

@@ -2,7 +2,7 @@ import DataObject, { DataObjectType } from "./DataObject";
 
 export type CommentType = Partial<
   DataObjectType & {
-    postId: number;
+    postId: string;
     name: string;
     email: string;
     body: string;
@@ -10,7 +10,7 @@ export type CommentType = Partial<
 >;
 
 export default class Comment extends DataObject {
-  protected _postId?: number;
+  protected _postId?: string;
   protected _name?: string;
   protected _email?: string;
   protected _body?: string;
@@ -29,11 +29,11 @@ export default class Comment extends DataObject {
     return "comments";
   }
 
-  get postId(): number | undefined {
+  get postId(): string | undefined {
     return this._postId;
   }
 
-  set postId(postId: number | undefined) {
+  set postId(postId: string | undefined) {
     this._postId = postId;
   }
 

@@ -4,13 +4,13 @@ import Photo from "./Photo";
 
 export type AlbumObjectType = Partial<
   DataObjectType & {
-    userId: number;
+    userId: string;
     title: string;
   }
 >;
 
 export default class Album extends DataObject {
-  protected _userId?: number;
+  protected _userId?: string;
   protected _title?: string;
 
   constructor({ id, userId, title }: AlbumObjectType) {
@@ -25,11 +25,11 @@ export default class Album extends DataObject {
     return Album.PATH;
   }
 
-  get userId(): number | undefined {
+  get userId(): string | undefined {
     return this._userId;
   }
 
-  set userId(userId: number | undefined) {
+  set userId(userId: string | undefined) {
     this._userId = userId;
   }
 
