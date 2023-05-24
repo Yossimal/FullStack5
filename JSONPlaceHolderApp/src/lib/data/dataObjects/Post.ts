@@ -58,7 +58,8 @@ export default class Post extends DataObject {
   }
 
   override get path(): string {
-    return "posts";
+    if(!this._userId) throw new Error("userId is not defined");
+    return `users/${this._userId}/${Post.PATH}`;
   }
 
   public fromUnknowObject(obj: unknown): void {
@@ -70,7 +71,7 @@ export default class Post extends DataObject {
   }
 
   get comments(): Promise<Comment[]> {
-    return getList<Comment>(`${this.fullPath}/${Comment.PATH}`);
+    return getList<Comment>(`${Post.PATH}/${this._id}/${Comment.PATH}`);
   }
 
 }
