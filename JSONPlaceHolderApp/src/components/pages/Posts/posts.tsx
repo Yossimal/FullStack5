@@ -20,7 +20,7 @@ export default function Posts() {
       <Row>
         <Col>
           <label>Sort By</label>
-          <select value={sortBy} onChange={handleSortOptionChange}>
+          <select title="sort options" value={sortBy} onChange={handleSortOptionChange}>
             <option value="id">ID</option>
             <option value="name">Name</option>
           </select>
