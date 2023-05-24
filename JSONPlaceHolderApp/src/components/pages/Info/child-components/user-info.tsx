@@ -11,13 +11,14 @@ type UserItemProps = {
 };
 
 const UserInfo = ({ user, setUser }: UserItemProps) => {
-  const { id, name, username, address, phone, website, company } = user;
+  const { id, name, username, email, address, phone, website, company } = user;
   const { street, suite, city, zipcode, geo } = address || {};
   const { name: companyName, catchPhrase, bs } = company || {};
 
   const [isEditable, setIsEditable] = useState(false);
   const [nameValue, setNameValue] = useState<string>(name ?? "");
   const [usernameValue, setUsernameValue] = useState<string>(username ?? "");
+  const [emailValue, setEmailValue] = useState<string>(username ?? "");
   const [streetValue, setStreetValueValue] = useState<string>(street ?? "");
   const [suiteValue, setSuiteValue] = useState<string>(suite ?? "");
   const [cityValue, setCityValue] = useState<string>(city ?? "");
@@ -82,6 +83,7 @@ const UserInfo = ({ user, setUser }: UserItemProps) => {
       <Card.Body>
       <EdibaleLabel isEditable={isEditable} label='Username' setter={setUsernameValue} value={usernameValue} WrapperComponent={Card.Title} />
         <EdibaleLabel isEditable={isEditable} label='Full Name' setter={setNameValue} value={nameValue} WrapperComponent={Card.Text} />
+        <EdibaleLabel isEditable={isEditable} label='Email' setter={setEmailValue} value={emailValue} WrapperComponent={Card.Text} />
         {isEditable && 
           <div className="d-flex flex-row gap-2">
             <EdibaleLabel isEditable={isEditable} label='Street' setter={setStreetValueValue} value={streetValue} WrapperComponent={Card.Text} />
