@@ -13,7 +13,6 @@ type UserItemProps = {
 const UserInfo = ({ user, setUser }: UserItemProps) => {
   const { id, name, username, address, phone, website, company } = user;
   const { street, suite, city, zipcode, geo } = address || {};
-  const { lat, lng } = geo || {};
   const { name: companyName, catchPhrase, bs } = company || {};
 
   const [isEditable, setIsEditable] = useState(false);
@@ -23,8 +22,6 @@ const UserInfo = ({ user, setUser }: UserItemProps) => {
   const [suiteValue, setSuiteValue] = useState<string>(suite ?? "");
   const [cityValue, setCityValue] = useState<string>(city ?? "");
   const [zipcodeValue, setZipcodeValue] = useState<string>(zipcode ?? "");
-  const [latValue, setLatValue] = useState<string>(lat ?? "");
-  const [lngValue, setLngValue] = useState<string>(lng ?? "");
   const [phoneValue, setPhoneValue] = useState<string>(phone ?? "");
   const [websiteValue, setWebsiteValue] = useState<string>(website ?? "");
   const [companyNameValue, setCompanyNameValue] = useState<string>(companyName ?? "");
@@ -55,8 +52,7 @@ const UserInfo = ({ user, setUser }: UserItemProps) => {
 
   const onSubmit = () => {
     setIsEditable(!isEditable);
-    const newGeo = {lat: latValue, lng: lngValue};
-    const newAddress = { street: streetValue, suite: suiteValue, city: cityValue, zipcode: zipcodeValue, geo: newGeo };
+    const newAddress = { street: streetValue, suite: suiteValue, city: cityValue, zipcode: zipcodeValue, geo };
     const newCompany = {name: companyNameValue, catchPhrase: catchPhraseValue, bs: bsValue};
     const newUser = new User({
       id,
